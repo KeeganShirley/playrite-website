@@ -23,7 +23,10 @@ export default function Footer() {
           {BOOKING_EMAIL}
         </a>
 
-        <ul className="mt-10 flex flex-wrap gap-3">
+        <p className="mt-10 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
+          Socials!
+        </p>
+        <ul className="mt-2 flex flex-wrap gap-3">
           {SOCIAL_LINKS.map((link) => (
             <li key={link.href}>
               <a
