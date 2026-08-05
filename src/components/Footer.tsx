@@ -1,4 +1,4 @@
-import { SOCIAL_LINKS } from "@/lib/links";
+import { BOOKING_EMAIL, SOCIAL_LINKS } from "@/lib/links";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -12,7 +12,18 @@ export default function Footer() {
         <h2 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
           CONNECT
         </h2>
-        <ul className="mt-8 flex flex-wrap gap-3">
+
+        <p className="mt-6 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
+          Booking &amp; Inquiries
+        </p>
+        <a
+          href={`mailto:${BOOKING_EMAIL}`}
+          className="mt-2 inline-block font-display text-2xl tracking-[0.04em] text-text underline decoration-border underline-offset-4 transition-colors hover:decoration-text sm:text-3xl"
+        >
+          {BOOKING_EMAIL}
+        </a>
+
+        <ul className="mt-10 flex flex-wrap gap-3">
           {SOCIAL_LINKS.map((link) => (
             <li key={link.href}>
               <a
