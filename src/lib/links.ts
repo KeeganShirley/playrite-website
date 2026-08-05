@@ -27,7 +27,7 @@ export const SOCIAL_LINKS = [
 
 export const MUSIC_VIDEO_URL = "https://www.youtube.com/watch?v=V1JrGTPAUuU";
 
-export const BOOKING_EMAIL = "playritebanddmv@gmail.com";
+export const BOOKING_EMAIL = "playritedmv@gmail.com";
 
 export function getYouTubeEmbedUrl(url: string) {
   const match = url.match(/(?:v=|youtu\.be\/)([\w-]{11})/);
