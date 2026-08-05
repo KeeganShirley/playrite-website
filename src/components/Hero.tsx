@@ -1,12 +1,11 @@
 import Image from "next/image";
+import type { Show } from "@prisma/client";
+import ShowsList from "@/components/ShowsList";
 
-export default function Hero() {
+export default function Hero({ shows }: { shows: Show[] }) {
   return (
-    <section
-      id="top"
-      className="relative flex min-h-dvh items-end overflow-hidden sm:items-center"
-    >
-      <div className="absolute inset-0 -z-10">
+    <section id="top" className="relative overflow-hidden">
+      <div className="relative h-[70vh] sm:min-h-dvh">
         <Image
           src="/images/hero-mobile.jpg"
           alt="Playrite band photo"
@@ -23,17 +22,15 @@ export default function Hero() {
           sizes="100vw"
           className="hidden object-cover object-center sm:block"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-bg/10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-transparent to-transparent" />
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:px-10 sm:pb-24">
-        <h1 className="font-display text-7xl leading-[0.9] tracking-[0.04em] text-text sm:text-9xl">
-          PLAYRITE
-        </h1>
-        <p className="mt-4 max-w-md text-sm uppercase tracking-[0.3em] text-text-muted sm:text-base">
-          Rock band &middot; Washington, DC
-        </p>
+      <div
+        id="shows"
+        className="px-4 pb-8 pt-6 sm:absolute sm:inset-y-0 sm:right-10 sm:flex sm:w-96 sm:items-center sm:px-0 sm:pb-0 sm:pt-0"
+      >
+        <ShowsList shows={shows} />
       </div>
     </section>
   );

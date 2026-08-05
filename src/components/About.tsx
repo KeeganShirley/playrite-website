@@ -18,8 +18,11 @@ export default function About() {
             ABOUT
           </h2>
           <p className="mt-6 max-w-md text-lg leading-relaxed text-text-muted">
-            Playrite is a rock band from Washington, DC. We write songs, play
-            them loud, and try not to think about it too much beyond that.
+            Playrite is an energetic DC-based quintet originating from the
+            armpits of the internet &mdash; reddit and, probably nicher than
+            your favs, bandmix.com. With a sound characterized by noisey lead
+            guitar and punchy, nostalgic vocals, playrite is sure to leave you
+            thinking &ldquo;wow, ok girl.&rdquo;
           </p>
         </div>
       </div>

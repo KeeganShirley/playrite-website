@@ -1,7 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import ShowsList from "@/components/ShowsList";
 import VideoSection from "@/components/VideoSection";
 import Footer from "@/components/Footer";
 import { getUpcomingShows } from "@/lib/shows";
@@ -17,8 +16,7 @@ export default async function Home() {
     <>
       <Nav />
       <main className="flex-1">
-        <Hero />
-        <ShowsList shows={shows} />
+        <Hero shows={shows} />
         <VideoSection />
         <About />
       </main>
