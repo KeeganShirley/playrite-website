@@ -30,7 +30,7 @@ export const NAV_LINKS = [
   { label: "About", href: "/#about" },
   { label: "Merch", href: "/merch" },
   { label: "Connect", href: "/#connect" },
-  { label: "Join List", href: "/join" },
+  { label: "Join Chat", href: "/join" },
 ] as const;
 
 export const MUSIC_VIDEO_URL = "https://www.youtube.com/watch?v=V1JrGTPAUuU";
