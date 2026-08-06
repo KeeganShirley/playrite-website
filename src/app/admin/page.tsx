@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   createShowAction,
   deleteShowAction,
@@ -31,14 +32,22 @@ export default async function AdminPage({
         <h1 className="font-display text-4xl tracking-[0.08em] text-text">
           MANAGE SHOWS
         </h1>
-        <form action={logoutAction}>
-          <button
-            type="submit"
+        <div className="flex items-center gap-6">
+          <Link
+            href="/"
             className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted hover:text-text"
           >
-            Log out
-          </button>
-        </form>
+            Back to site
+          </Link>
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted hover:text-text"
+            >
+              Log out
+            </button>
+          </form>
+        </div>
       </div>
 
       {error ? (
