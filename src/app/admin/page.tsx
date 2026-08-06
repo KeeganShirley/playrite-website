@@ -5,6 +5,7 @@ import {
   updateShowAction,
 } from "@/app/admin/actions";
 import { getAllShows } from "@/lib/shows";
+import { getAllSubscribers } from "@/lib/subscribers";
 
 function toDateInputValue(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -21,6 +22,7 @@ export default async function AdminPage({
   const params = await searchParams;
   const error = params?.error;
   const shows = await getAllShows();
+  const subscribers = await getAllSubscribers();
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16 sm:px-10">
@@ -219,6 +221,56 @@ export default async function AdminPage({
               </li>
             ))}
           </ul>
+        )}
+      </section>
+
+      <section className="mt-12">
+        <div className="flex items-center justify-between">
+          <h2 className="font-display text-2xl tracking-[0.06em] text-text">
+            MAILING LIST ({subscribers.length})
+          </h2>
+          {subscribers.length > 0 ? (
+            <a
+              href={`mailto:?bcc=${encodeURIComponent(
+                subscribers.map((s) => s.email).join(",")
+              )}`}
+              className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted hover:text-text"
+            >
+              Email the list
+            </a>
+          ) : null}
+        </div>
+
+        {subscribers.length === 0 ? (
+          <p className="mt-4 text-text-muted">No subscribers yet.</p>
+        ) : (
+          <>
+            <ul className="mt-4 max-h-80 overflow-y-auto rounded-sm border border-border divide-y divide-border/60">
+              {subscribers.map((subscriber) => (
+                <li
+                  key={subscriber.id}
+                  className="flex items-center justify-between px-4 py-2.5 text-sm"
+                >
+                  <span className="text-text">{subscriber.email}</span>
+                  <span className="text-xs text-text-muted">
+                    {new Intl.DateTimeFormat("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }).format(subscriber.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <label className={`${labelClass} mt-4 block`}>
+              Copy all emails
+            </label>
+            <textarea
+              readOnly
+              value={subscribers.map((s) => s.email).join(", ")}
+              className={`${inputClass} mt-1 h-24 resize-none`}
+            />
+          </>
         )}
       </section>
     </main>

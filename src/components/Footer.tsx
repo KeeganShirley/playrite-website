@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BOOKING_EMAIL, SOCIAL_LINKS } from "@/lib/links";
 
 export default function Footer() {
@@ -40,6 +41,16 @@ export default function Footer() {
             </li>
           ))}
         </ul>
+        <p className="mt-10 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
+          Don&apos;t Miss Out
+        </p>
+        <Link
+          href="/join"
+          className="mt-2 inline-block font-display text-2xl tracking-[0.04em] text-text underline decoration-border underline-offset-4 transition-colors hover:decoration-text sm:text-3xl"
+        >
+          Join our mail list!
+        </Link>
+
         <p className="mt-12 text-xs text-text-muted">
           &copy; {year} Playrite. All rights reserved.
         </p>
