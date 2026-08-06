@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { COOKIE_NAME, SESSION_TTL_SECONDS, createSessionToken } from "@/lib/session";
 import { isAdminSession } from "@/lib/auth";
 import { createShow, deleteShow, updateShow, type ShowInput } from "@/lib/shows";
+import { deleteSubscriber } from "@/lib/subscribers";
 
 export async function loginAction(formData: FormData) {
   const username = String(formData.get("username") ?? "");
@@ -90,6 +91,17 @@ export async function deleteShowAction(formData: FormData) {
 
   await deleteShow(id);
   revalidatePath("/");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function deleteSubscriberAction(formData: FormData) {
+  if (!(await isAdminSession())) redirect("/admin/login");
+
+  const id = String(formData.get("id") ?? "");
+  if (!id) redirect("/admin?error=missing_id");
+
+  await deleteSubscriber(id);
   revalidatePath("/admin");
   redirect("/admin");
 }

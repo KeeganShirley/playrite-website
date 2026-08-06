@@ -1,6 +1,7 @@
 import {
   createShowAction,
   deleteShowAction,
+  deleteSubscriberAction,
   logoutAction,
   updateShowAction,
 } from "@/app/admin/actions";
@@ -252,12 +253,23 @@ export default async function AdminPage({
                   className="flex items-center justify-between px-4 py-2.5 text-sm"
                 >
                   <span className="text-text">{subscriber.email}</span>
-                  <span className="text-xs text-text-muted">
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    }).format(subscriber.createdAt)}
+                  <span className="flex items-center gap-3">
+                    <span className="text-xs text-text-muted">
+                      {new Intl.DateTimeFormat("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      }).format(subscriber.createdAt)}
+                    </span>
+                    <form action={deleteSubscriberAction}>
+                      <input type="hidden" name="id" value={subscriber.id} />
+                      <button
+                        type="submit"
+                        className="text-xs font-medium uppercase tracking-[0.15em] text-red-300/80 hover:text-red-300"
+                      >
+                        Remove
+                      </button>
+                    </form>
                   </span>
                 </li>
               ))}

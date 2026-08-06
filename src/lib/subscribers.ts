@@ -21,3 +21,7 @@ export async function addSubscriber(email: string) {
 export async function getAllSubscribers() {
   return prisma.subscriber.findMany({ orderBy: { createdAt: "desc" } });
 }
+
+export async function deleteSubscriber(id: string) {
+  return prisma.subscriber.delete({ where: { id } });
+}
