@@ -25,6 +25,13 @@ export const SOCIAL_LINKS = [
   },
 ] as const;
 
+export const NAV_LINKS = [
+  { label: "Music", href: "/#music" },
+  { label: "About", href: "/#about" },
+  { label: "Merch", href: "/merch" },
+  { label: "Connect", href: "/#connect" },
+] as const;
+
 export const MUSIC_VIDEO_URL = "https://www.youtube.com/watch?v=V1JrGTPAUuU";
 
 export const BOOKING_EMAIL = "playritedmv@gmail.com";

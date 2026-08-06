@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SOCIAL_LINKS } from "@/lib/links";
+import { NAV_LINKS, SOCIAL_LINKS } from "@/lib/links";
 import {
   AppleMusicIcon,
   InstagramIcon,
@@ -7,13 +7,7 @@ import {
   TikTokIcon,
   YouTubeIcon,
 } from "@/components/icons";
-
-const NAV_LINKS = [
-  { label: "Music", href: "/#music" },
-  { label: "About", href: "/#about" },
-  { label: "Merch", href: "/merch" },
-  { label: "Connect", href: "/#connect" },
-];
+import MobileMenu from "@/components/MobileMenu";
 
 function findSocial(label: string) {
   const link = SOCIAL_LINKS.find((l) => l.label === label);
@@ -32,7 +26,7 @@ const NAV_ICONS = [
 export default function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 border-b border-border/60 bg-bg/70 backdrop-blur">
-      <nav className="mx-auto grid max-w-6xl grid-cols-2 items-center gap-4 px-6 py-4 sm:grid-cols-[1fr_auto_1fr] sm:px-10">
+      <nav className="mx-auto grid max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 px-6 py-4 sm:grid-cols-[1fr_auto_1fr] sm:px-10">
         <Link
           href="/#top"
           className="font-display text-2xl tracking-[0.15em] text-text"
@@ -40,7 +34,7 @@ export default function Nav() {
           PLAYRITE
         </Link>
 
-        <ul className="flex items-center justify-end gap-4 sm:justify-self-center">
+        <ul className="flex items-center justify-center gap-4">
           {NAV_ICONS.map(({ label, href, Icon }) => (
             <li key={label}>
               <a
@@ -56,18 +50,22 @@ export default function Nav() {
           ))}
         </ul>
 
-        <ul className="hidden items-center gap-8 sm:flex sm:justify-self-end">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted transition-colors hover:text-text"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="justify-self-end">
+          <MobileMenu />
+
+          <ul className="hidden items-center gap-8 sm:flex">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted transition-colors hover:text-text"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </nav>
     </header>
   );
