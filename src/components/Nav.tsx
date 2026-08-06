@@ -9,9 +9,10 @@ import {
 } from "@/components/icons";
 
 const NAV_LINKS = [
-  { label: "Music", href: "#music" },
-  { label: "About", href: "#about" },
-  { label: "Connect", href: "#connect" },
+  { label: "Music", href: "/#music" },
+  { label: "About", href: "/#about" },
+  { label: "Merch", href: "/merch" },
+  { label: "Connect", href: "/#connect" },
 ];
 
 function findSocial(label: string) {
@@ -33,7 +34,7 @@ export default function Nav() {
     <header className="fixed top-0 inset-x-0 z-50 border-b border-border/60 bg-bg/70 backdrop-blur">
       <nav className="mx-auto grid max-w-6xl grid-cols-2 items-center gap-4 px-6 py-4 sm:grid-cols-[1fr_auto_1fr] sm:px-10">
         <Link
-          href="#top"
+          href="/#top"
           className="font-display text-2xl tracking-[0.15em] text-text"
         >
           PLAYRITE
@@ -58,12 +59,12 @@ export default function Nav() {
         <ul className="hidden items-center gap-8 sm:flex sm:justify-self-end">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
                 className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted transition-colors hover:text-text"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
