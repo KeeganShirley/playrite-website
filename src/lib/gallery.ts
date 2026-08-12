@@ -12,7 +12,7 @@ export function tiltForIndex(index: number) {
 }
 
 export const GALLERY_IMAGES: GalleryImage[] = [
-  { src: "/images/gallery/gallery-01.jpg", width: 1331, height: 1800 },
+  { src: "/images/gallery/gallery-21.jpg", width: 1800, height: 1350 },
   { src: "/images/gallery/gallery-02.jpg", width: 1800, height: 1014 },
   { src: "/images/gallery/gallery-03.jpg", width: 1800, height: 1014 },
   { src: "/images/gallery/gallery-04.jpg", width: 1800, height: 1014 },
@@ -32,5 +32,5 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { src: "/images/gallery/gallery-18.jpg", width: 1800, height: 1440 },
   { src: "/images/gallery/gallery-19.jpg", width: 1800, height: 1264 },
   { src: "/images/gallery/gallery-20.jpg", width: 1800, height: 1013 },
-  { src: "/images/gallery/gallery-21.jpg", width: 1800, height: 1350 },
+  { src: "/images/gallery/gallery-01.jpg", width: 1331, height: 1800 },
 ];
