@@ -17,16 +17,13 @@ export default function GalleryPage() {
           <h1 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
             GALLERY
           </h1>
-          <p className="mt-4 max-w-md text-text-muted">
-            A pile of pictures of us being idiots.
-          </p>
 
           <div className="mt-12 columns-2 gap-5 sm:columns-3 lg:columns-4">
             {GALLERY_IMAGES.map((image, index) => (
               <div
                 key={image.src}
                 style={{ transform: `rotate(${tiltForIndex(index)}deg)` }}
-                className="mb-5 break-inside-avoid rounded-sm bg-accent p-2 shadow-lg transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105 sm:p-3"
+                className="mb-5 break-inside-avoid rounded-sm bg-accent p-1 shadow-lg transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105"
               >
                 <Image
                   src={image.src}
