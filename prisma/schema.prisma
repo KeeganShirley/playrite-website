@@ -23,3 +23,9 @@ model Subscriber {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  createdAt DateTime @default(now())
+}
