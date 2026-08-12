@@ -14,11 +14,9 @@ export default function GalleryPage() {
       <Nav />
       <main className="flex-1 px-6 pb-20 pt-28 sm:px-10 sm:pt-36">
         <div className="mx-auto max-w-6xl">
-          <h1 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
-            GALLERY
-          </h1>
+          <h1 className="sr-only">Gallery</h1>
 
-          <div className="mt-12 columns-2 gap-5 sm:columns-3 lg:columns-4">
+          <div className="columns-2 gap-5 sm:columns-3 lg:columns-4">
             {GALLERY_IMAGES.map((image, index) => (
               <div
                 key={image.src}
