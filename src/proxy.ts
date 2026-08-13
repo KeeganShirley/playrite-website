@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { COOKIE_NAME, verifySessionToken } from "@/lib/session";
-import { recordPageView } from "@/lib/pageviews";
+import {
+  VISITOR_COOKIE_MAX_AGE,
+  VISITOR_COOKIE_NAME,
+  recordNewVisitor,
+} from "@/lib/visitors";
 
 const TRACKED_PATHS = new Set(["/", "/merch", "/gallery", "/join"]);
 
@@ -17,11 +21,21 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
     return NextResponse.next();
   }
 
-  if (TRACKED_PATHS.has(pathname)) {
-    event.waitUntil(recordPageView(pathname));
+  const response = NextResponse.next();
+
+  if (TRACKED_PATHS.has(pathname) && !request.cookies.get(VISITOR_COOKIE_NAME)) {
+    const id = crypto.randomUUID();
+    response.cookies.set(VISITOR_COOKIE_NAME, id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: VISITOR_COOKIE_MAX_AGE,
+    });
+    event.waitUntil(recordNewVisitor(id));
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

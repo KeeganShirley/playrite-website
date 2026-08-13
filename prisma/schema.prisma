@@ -24,8 +24,7 @@ model Subscriber {
   createdAt DateTime @default(now())
 }
 
-model PageView {
+model Visitor {
   id        String   @id @default(cuid())
-  path      String
   createdAt DateTime @default(now())
 }

@@ -8,7 +8,7 @@ import {
 } from "@/app/admin/actions";
 import { getAllShows } from "@/lib/shows";
 import { getAllSubscribers } from "@/lib/subscribers";
-import { getTotalPageViews } from "@/lib/pageviews";
+import { getTotalUniqueVisitors } from "@/lib/visitors";
 
 function toDateInputValue(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -26,7 +26,7 @@ export default async function AdminPage({
   const error = params?.error;
   const shows = await getAllShows();
   const subscribers = await getAllSubscribers();
-  const totalVisits = await getTotalPageViews();
+  const totalVisitors = await getTotalUniqueVisitors();
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16 sm:px-10">
@@ -53,7 +53,7 @@ export default async function AdminPage({
       </div>
 
       <p className="mt-3 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-        Total visits: <span className="text-text">{totalVisits.toLocaleString()}</span>
+        Unique visitors: <span className="text-text">{totalVisitors.toLocaleString()}</span>
       </p>
 
       {error ? (
