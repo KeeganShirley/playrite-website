@@ -4,6 +4,7 @@ import { COOKIE_NAME, verifySessionToken } from "@/lib/session";
 import {
   VISITOR_COOKIE_MAX_AGE,
   VISITOR_COOKIE_NAME,
+  isBotUserAgent,
   recordNewVisitor,
 } from "@/lib/visitors";
 
@@ -23,7 +24,11 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
 
   const response = NextResponse.next();
 
-  if (TRACKED_PATHS.has(pathname) && !request.cookies.get(VISITOR_COOKIE_NAME)) {
+  if (
+    TRACKED_PATHS.has(pathname) &&
+    !request.cookies.get(VISITOR_COOKIE_NAME) &&
+    !isBotUserAgent(request.headers.get("user-agent"))
+  ) {
     const id = crypto.randomUUID();
     response.cookies.set(VISITOR_COOKIE_NAME, id, {
       httpOnly: true,
