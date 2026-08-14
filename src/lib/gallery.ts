@@ -33,4 +33,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { src: "/images/gallery/gallery-19.jpg", width: 1800, height: 1264 },
   { src: "/images/gallery/gallery-20.jpg", width: 1800, height: 1013 },
   { src: "/images/gallery/gallery-01.jpg", width: 1331, height: 1800 },
+  { src: "/images/gallery/gallery-22.jpg", width: 1800, height: 1800 },
+  { src: "/images/gallery/gallery-23.jpg", width: 1179, height: 1558 },
 ];
