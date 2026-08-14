@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      // Default is 1mb; raw phone/camera photos (especially several
+      // dropped at once) blow well past that before they're compressed.
+      bodySizeLimit: "50mb",
+    },
+  },
 };
 
 export default nextConfig;
