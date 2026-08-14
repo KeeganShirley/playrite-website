@@ -21,7 +21,7 @@ export default function GalleryPage() {
               <div
                 key={image.src}
                 style={{ transform: `rotate(${tiltForIndex(index)}deg)` }}
-                className="mb-5 break-inside-avoid rounded-sm bg-accent p-1 shadow-lg transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105"
+                className="mb-5 break-inside-avoid shadow-lg transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-105"
               >
                 <Image
                   src={image.src}
@@ -29,7 +29,7 @@ export default function GalleryPage() {
                   width={image.width}
                   height={image.height}
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  className="w-full"
+                  className="w-full rounded-sm"
                 />
               </div>
             ))}
