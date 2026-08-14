@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   createShowAction,
+  deleteGalleryPhotoAction,
   deleteShowAction,
   deleteSubscriberAction,
   logoutAction,
@@ -9,6 +11,8 @@ import {
 import { getAllShows } from "@/lib/shows";
 import { getAllSubscribers } from "@/lib/subscribers";
 import { getTotalUniqueVisitors } from "@/lib/visitors";
+import { getUploadedGalleryPhotos } from "@/lib/galleryPhotos";
+import GalleryUploader from "@/components/admin/GalleryUploader";
 
 function toDateInputValue(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -27,6 +31,7 @@ export default async function AdminPage({
   const shows = await getAllShows();
   const subscribers = await getAllSubscribers();
   const totalVisitors = await getTotalUniqueVisitors();
+  const galleryPhotos = await getUploadedGalleryPhotos();
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16 sm:px-10">
@@ -299,6 +304,46 @@ export default async function AdminPage({
             />
           </>
         )}
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl tracking-[0.06em] text-text">
+          GALLERY ({galleryPhotos.length})
+        </h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Adds to the photos already on the Gallery page. Drop as many as
+          you want at once.
+        </p>
+
+        <div className="mt-4">
+          <GalleryUploader />
+        </div>
+
+        {galleryPhotos.length > 0 ? (
+          <ul className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+            {galleryPhotos.map((photo) => (
+              <li key={photo.id} className="relative aspect-square">
+                <Image
+                  src={photo.url}
+                  alt=""
+                  fill
+                  sizes="200px"
+                  className="rounded-sm object-cover"
+                />
+                <form action={deleteGalleryPhotoAction} className="absolute right-1 top-1">
+                  <input type="hidden" name="id" value={photo.id} />
+                  <button
+                    type="submit"
+                    aria-label="Delete photo"
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-bg/90 text-xs font-bold text-red-300 hover:text-red-400"
+                  >
+                    &times;
+                  </button>
+                </form>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
     </main>
   );

@@ -28,3 +28,11 @@ model Visitor {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 }
+
+model GalleryPhoto {
+  id        String   @id @default(cuid())
+  url       String
+  width     Int
+  height    Int
+  createdAt DateTime @default(now())
+}

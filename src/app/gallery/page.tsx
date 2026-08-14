@@ -3,12 +3,27 @@ import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { GALLERY_IMAGES, tiltForIndex } from "@/lib/gallery";
+import { getUploadedGalleryPhotos } from "@/lib/galleryPhotos";
 
 export const metadata: Metadata = {
   title: "Gallery – Playrite",
 };
 
-export default function GalleryPage() {
+// Re-check for newly uploaded photos at most once an hour; admin uploads
+// also trigger an immediate revalidation of this path.
+export const revalidate = 3600;
+
+export default async function GalleryPage() {
+  const uploaded = await getUploadedGalleryPhotos();
+  const images = [
+    ...GALLERY_IMAGES,
+    ...uploaded.map((photo) => ({
+      src: photo.url,
+      width: photo.width,
+      height: photo.height,
+    })),
+  ];
+
   return (
     <>
       <Nav />
@@ -17,7 +32,7 @@ export default function GalleryPage() {
           <h1 className="sr-only">Gallery</h1>
 
           <div className="columns-2 gap-5 sm:columns-3 lg:columns-4">
-            {GALLERY_IMAGES.map((image, index) => (
+            {images.map((image, index) => (
               <div
                 key={image.src}
                 style={{ transform: `rotate(${tiltForIndex(index)}deg)` }}

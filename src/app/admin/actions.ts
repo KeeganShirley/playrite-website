@@ -1,6 +1,8 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import sharp from "sharp";
+import { put } from "@vercel/blob";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -8,6 +10,7 @@ import { COOKIE_NAME, SESSION_TTL_SECONDS, createSessionToken } from "@/lib/sess
 import { isAdminSession } from "@/lib/auth";
 import { createShow, deleteShow, updateShow, type ShowInput } from "@/lib/shows";
 import { deleteSubscriber } from "@/lib/subscribers";
+import { createGalleryPhoto, deleteGalleryPhoto } from "@/lib/galleryPhotos";
 
 export async function loginAction(formData: FormData) {
   const username = String(formData.get("username") ?? "");
@@ -102,6 +105,49 @@ export async function deleteSubscriberAction(formData: FormData) {
   if (!id) redirect("/admin?error=missing_id");
 
   await deleteSubscriber(id);
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function uploadGalleryPhotosAction(formData: FormData) {
+  if (!(await isAdminSession())) redirect("/admin/login");
+
+  const files = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length === 0) redirect("/admin?error=no_photos");
+
+  for (const file of files) {
+    if (!file.type.startsWith("image/")) continue;
+
+    const inputBuffer = Buffer.from(await file.arrayBuffer());
+    const outputBuffer = await sharp(inputBuffer)
+      .rotate()
+      .resize({ width: 1800, height: 1800, fit: "inside", withoutEnlargement: true })
+      .jpeg({ quality: 82 })
+      .toBuffer();
+    const meta = await sharp(outputBuffer).metadata();
+    if (!meta.width || !meta.height) continue;
+
+    const blob = await put(`gallery/${crypto.randomUUID()}.jpg`, outputBuffer, {
+      access: "public",
+      contentType: "image/jpeg",
+    });
+
+    await createGalleryPhoto(blob.url, meta.width, meta.height);
+  }
+
+  revalidatePath("/gallery");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function deleteGalleryPhotoAction(formData: FormData) {
+  if (!(await isAdminSession())) redirect("/admin/login");
+
+  const id = String(formData.get("id") ?? "");
+  if (!id) redirect("/admin?error=missing_id");
+
+  await deleteGalleryPhoto(id);
+  revalidatePath("/gallery");
   revalidatePath("/admin");
   redirect("/admin");
 }
