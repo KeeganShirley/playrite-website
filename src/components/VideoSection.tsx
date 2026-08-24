@@ -1,4 +1,5 @@
 import { MUSIC_VIDEO_URL, SOCIAL_LINKS, getYouTubeEmbedUrl } from "@/lib/links";
+import { getSiteText } from "@/lib/settings";
 import {
   AppleMusicIcon,
   BandcampIcon,
@@ -19,12 +20,14 @@ const BANDCAMP_URL = findSocial("Bandcamp");
 
 const iconLinkClass = "text-text-muted transition-colors hover:text-text";
 
-export default function VideoSection() {
+export default async function VideoSection() {
+  const heading = await getSiteText("video_heading");
+
   return (
     <section id="music" className="border-t border-border/60 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <h2 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
-          TEASERS MUSIC VIDEO!!
+          {heading}
         </h2>
 
         <div className="mt-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-center">

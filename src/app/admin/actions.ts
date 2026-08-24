@@ -9,6 +9,7 @@ import { isAdminSession } from "@/lib/auth";
 import { createShow, deleteShow, updateShow, type ShowInput } from "@/lib/shows";
 import { deleteSubscriber } from "@/lib/subscribers";
 import { deleteGalleryPhoto } from "@/lib/galleryPhotos";
+import { SITE_TEXT_FIELDS, updateSiteText, type SiteTextKey } from "@/lib/settings";
 
 export async function loginAction(formData: FormData) {
   const username = String(formData.get("username") ?? "");
@@ -117,4 +118,22 @@ export async function deleteGalleryPhotoAction(formData: FormData) {
   revalidatePath("/gallery");
   revalidatePath("/admin");
   redirect("/admin");
+}
+
+export async function updateSiteTextAction(formData: FormData) {
+  if (!(await isAdminSession())) redirect("/admin/login");
+
+  const keys = Object.keys(SITE_TEXT_FIELDS) as SiteTextKey[];
+  const entries: Partial<Record<SiteTextKey, string>> = {};
+  for (const key of keys) {
+    const value = formData.get(key);
+    if (typeof value === "string") entries[key] = value.trim();
+  }
+
+  await updateSiteText(entries);
+  revalidatePath("/");
+  revalidatePath("/merch");
+  revalidatePath("/join");
+  revalidatePath("/admin");
+  redirect("/admin?saved=1");
 }

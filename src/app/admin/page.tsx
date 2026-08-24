@@ -7,11 +7,13 @@ import {
   deleteSubscriberAction,
   logoutAction,
   updateShowAction,
+  updateSiteTextAction,
 } from "@/app/admin/actions";
 import { getAllShows } from "@/lib/shows";
 import { getAllSubscribers } from "@/lib/subscribers";
 import { getTotalUniqueVisitors } from "@/lib/visitors";
 import { getUploadedGalleryPhotos } from "@/lib/galleryPhotos";
+import { SITE_TEXT_FIELDS, getAllSiteText, type SiteTextKey } from "@/lib/settings";
 import GalleryUploader from "@/components/admin/GalleryUploader";
 
 function toDateInputValue(date: Date) {
@@ -28,10 +30,12 @@ export default async function AdminPage({
 }: PageProps<"/admin">) {
   const params = await searchParams;
   const error = params?.error;
+  const saved = params?.saved === "1";
   const shows = await getAllShows();
   const subscribers = await getAllSubscribers();
   const totalVisitors = await getTotalUniqueVisitors();
   const galleryPhotos = await getUploadedGalleryPhotos();
+  const siteText = await getAllSiteText();
 
   return (
     <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16 sm:px-10">
@@ -64,6 +68,12 @@ export default async function AdminPage({
       {error ? (
         <p className="mt-4 rounded-sm border border-red-900/60 bg-red-950/40 px-4 py-3 text-sm text-red-200">
           Something was missing &mdash; date, venue, and city are required.
+        </p>
+      ) : null}
+
+      {saved ? (
+        <p className="mt-4 rounded-sm border border-border bg-bg-elevated px-4 py-3 text-sm text-text">
+          Saved.
         </p>
       ) : null}
 
@@ -344,6 +354,44 @@ export default async function AdminPage({
             ))}
           </ul>
         ) : null}
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl tracking-[0.06em] text-text">
+          SITE TEXT
+        </h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Edit the copy on the About, Music Video, Merch, and Join pages
+          directly &mdash; no need to ask for these.
+        </p>
+
+        <form
+          action={updateSiteTextAction}
+          className="mt-4 flex flex-col gap-5"
+        >
+          {(Object.keys(SITE_TEXT_FIELDS) as SiteTextKey[]).map((key) => (
+            <div key={key}>
+              <label className={labelClass} htmlFor={key}>
+                {SITE_TEXT_FIELDS[key].label}
+              </label>
+              <textarea
+                id={key}
+                name={key}
+                defaultValue={siteText[key]}
+                rows={key === "about_bio" ? 5 : 2}
+                className={`${inputClass} resize-y`}
+              />
+            </div>
+          ))}
+          <div>
+            <button
+              type="submit"
+              className="rounded-sm border border-text bg-text px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-bg transition-opacity hover:opacity-90"
+            >
+              Save site text
+            </button>
+          </div>
+        </form>
       </section>
     </main>
   );

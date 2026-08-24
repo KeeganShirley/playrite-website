@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { getSiteText } from "@/lib/settings";
 
 export const metadata: Metadata = {
   title: "Merch – Playrite",
 };
 
-export default function MerchPage() {
+export default async function MerchPage() {
+  const message = await getSiteText("merch_message");
+
   return (
     <>
       <Nav />
@@ -14,9 +17,7 @@ export default function MerchPage() {
         <h1 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
           MERCH
         </h1>
-        <p className="mt-6 max-w-md text-lg text-text-muted">
-          Oops, we don&apos;t have merch yet. Coming soon!
-        </p>
+        <p className="mt-6 max-w-md text-lg text-text-muted">{message}</p>
       </main>
       <Footer />
     </>

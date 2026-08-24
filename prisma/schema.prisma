@@ -36,3 +36,9 @@ model GalleryPhoto {
   height    Int
   createdAt DateTime @default(now())
 }
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { getSiteText } from "@/lib/settings";
 
-export default function About() {
+export default async function About() {
+  const bio = await getSiteText("about_bio");
+
   return (
     <section id="about" className="border-t border-border/60 py-20 sm:py-28">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 sm:grid-cols-2 sm:items-center sm:gap-16 sm:px-10">
@@ -17,12 +20,8 @@ export default function About() {
           <h2 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
             ABOUT
           </h2>
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-text-muted">
-            Playrite is an energetic DC-based quintet originating from the
-            armpits of the internet &mdash; reddit and, probably nicher than
-            your favs, bandmix.com. With a sound characterized by noisey lead
-            guitar and punchy, nostalgic vocals, playrite is sure to leave you
-            thinking &ldquo;wow, ok girl.&rdquo;
+          <p className="mt-6 max-w-md whitespace-pre-line text-lg leading-relaxed text-text-muted">
+            {bio}
           </p>
         </div>
       </div>
