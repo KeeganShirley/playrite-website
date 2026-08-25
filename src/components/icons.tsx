@@ -1,3 +1,5 @@
+export type IconComponent = (props: { className?: string }) => React.JSX.Element;
+
 export function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg

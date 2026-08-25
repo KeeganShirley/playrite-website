@@ -5,6 +5,7 @@ import {
   BandcampIcon,
   SpotifyIcon,
   YouTubeIcon,
+  type IconComponent,
 } from "@/components/icons";
 
 function findSocial(label: string) {
@@ -13,15 +14,42 @@ function findSocial(label: string) {
   return link.href;
 }
 
-const SPOTIFY_URL = findSocial("Spotify");
-const YOUTUBE_URL = findSocial("YouTube");
-const APPLE_MUSIC_URL = findSocial("Apple Music");
-const BANDCAMP_URL = findSocial("Bandcamp");
+const PLATFORMS: { label: string; href: string; Icon: IconComponent }[] = [
+  { label: "Spotify", href: findSocial("Spotify"), Icon: SpotifyIcon },
+  { label: "YouTube", href: findSocial("YouTube"), Icon: YouTubeIcon },
+  { label: "Apple Music", href: findSocial("Apple Music"), Icon: AppleMusicIcon },
+  { label: "Bandcamp", href: findSocial("Bandcamp"), Icon: BandcampIcon },
+];
 
-const iconLinkClass = "text-text-muted transition-colors hover:text-text";
+function PlatformLink({
+  label,
+  href,
+  Icon,
+  size,
+}: {
+  label: string;
+  href: string;
+  Icon: IconComponent;
+  size: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col items-center gap-2 text-text-muted transition-colors hover:text-text"
+    >
+      <Icon className={size} />
+      <span className="text-[11px] font-medium uppercase tracking-[0.15em]">
+        {label}
+      </span>
+    </a>
+  );
+}
 
 export default async function VideoSection() {
   const heading = await getSiteText("video_heading");
+  const [spotify, youtube, appleMusic, bandcamp] = PLATFORMS;
 
   return (
     <section id="music" className="border-t border-border/60 py-20 sm:py-28">
@@ -30,26 +58,10 @@ export default async function VideoSection() {
           {heading}
         </h2>
 
-        <div className="mt-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-center">
-          <div className="hidden md:flex md:flex-col md:items-center md:gap-10">
-            <a
-              href={SPOTIFY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Spotify"
-              className={iconLinkClass}
-            >
-              <SpotifyIcon className="h-12 w-12" />
-            </a>
-            <a
-              href={YOUTUBE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className={iconLinkClass}
-            >
-              <YouTubeIcon className="h-12 w-12" />
-            </a>
+        <div className="mt-10 flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-center">
+          <div className="hidden md:flex md:flex-col md:items-center md:gap-12">
+            <PlatformLink {...spotify} size="h-14 w-14" />
+            <PlatformLink {...youtube} size="h-14 w-14" />
           </div>
 
           <div className="aspect-video w-full max-w-2xl overflow-hidden rounded-sm bg-bg-elevated">
@@ -62,64 +74,15 @@ export default async function VideoSection() {
             />
           </div>
 
-          <div className="hidden md:flex md:flex-col md:items-center md:gap-10">
-            <a
-              href={APPLE_MUSIC_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Apple Music"
-              className={iconLinkClass}
-            >
-              <AppleMusicIcon className="h-12 w-12" />
-            </a>
-            <a
-              href={BANDCAMP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Bandcamp"
-              className={iconLinkClass}
-            >
-              <BandcampIcon className="h-12 w-12" />
-            </a>
+          <div className="hidden md:flex md:flex-col md:items-center md:gap-12">
+            <PlatformLink {...appleMusic} size="h-14 w-14" />
+            <PlatformLink {...bandcamp} size="h-14 w-14" />
           </div>
 
-          <div className="flex items-center gap-6 md:hidden">
-            <a
-              href={SPOTIFY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Spotify"
-              className={iconLinkClass}
-            >
-              <SpotifyIcon className="h-9 w-9" />
-            </a>
-            <a
-              href={YOUTUBE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className={iconLinkClass}
-            >
-              <YouTubeIcon className="h-9 w-9" />
-            </a>
-            <a
-              href={APPLE_MUSIC_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Apple Music"
-              className={iconLinkClass}
-            >
-              <AppleMusicIcon className="h-9 w-9" />
-            </a>
-            <a
-              href={BANDCAMP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Bandcamp"
-              className={iconLinkClass}
-            >
-              <BandcampIcon className="h-9 w-9" />
-            </a>
+          <div className="grid grid-cols-4 gap-6 md:hidden">
+            {PLATFORMS.map((platform) => (
+              <PlatformLink key={platform.label} {...platform} size="h-10 w-10" />
+            ))}
           </div>
         </div>
       </div>
