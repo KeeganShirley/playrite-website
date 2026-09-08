@@ -23,6 +23,10 @@ export const SITE_TEXT_FIELDS = {
     default:
       "Get on the list for new music, shows, and whatever else we feel like sending.",
   },
+  no_shows_message: {
+    label: "\"No shows\" message",
+    default: "No shows on the books right now — check back soon.",
+  },
 } as const;
 
 export type SiteTextKey = keyof typeof SITE_TEXT_FIELDS;

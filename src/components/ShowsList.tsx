@@ -1,4 +1,5 @@
 import type { Show } from "@prisma/client";
+import { getSiteText } from "@/lib/settings";
 
 function formatShowDate(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -9,7 +10,9 @@ function formatShowDate(date: Date) {
   }).format(date);
 }
 
-export default function ShowsList({ shows }: { shows: Show[] }) {
+export default async function ShowsList({ shows }: { shows: Show[] }) {
+  const noShowsMessage = await getSiteText("no_shows_message");
+
   return (
     <div className="w-full rounded-sm border border-border bg-bg/85 backdrop-blur-md">
       <h2 className="border-b border-border/60 px-5 py-4 font-display text-2xl tracking-[0.08em] text-text">
@@ -18,9 +21,7 @@ export default function ShowsList({ shows }: { shows: Show[] }) {
 
       <div className="max-h-[45vh] overflow-y-auto px-5 py-4">
         {shows.length === 0 ? (
-          <p className="text-sm text-text-muted">
-            No shows on the books right now &mdash; check back soon.
-          </p>
+          <p className="text-sm text-text-muted">{noShowsMessage}</p>
         ) : (
           <ul className="flex flex-col divide-y divide-border/40">
             {shows.map((show) => (
