@@ -17,7 +17,9 @@ export default async function MerchPage() {
         <h1 className="font-display text-4xl tracking-[0.08em] text-text sm:text-5xl">
           MERCH
         </h1>
-        <p className="mt-6 max-w-md text-lg text-text-muted">{message}</p>
+        <p className="mt-6 max-w-md whitespace-pre-line text-lg text-text-muted">
+          {message}
+        </p>
       </main>
       <Footer />
     </>

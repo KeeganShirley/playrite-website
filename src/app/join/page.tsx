@@ -26,7 +26,7 @@ export default async function JoinPage({
         <h1 className="font-display text-4xl tracking-[0.06em] text-text sm:text-6xl">
           {heading}
         </h1>
-        <p className="mt-4 max-w-md text-text-muted">{blurb}</p>
+        <p className="mt-4 max-w-md whitespace-pre-line text-text-muted">{blurb}</p>
 
         {success ? (
           <p className="mt-8 rounded-sm border border-border bg-bg-elevated px-5 py-3 text-sm text-text">

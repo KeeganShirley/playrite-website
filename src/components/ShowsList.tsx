@@ -21,7 +21,7 @@ export default async function ShowsList({ shows }: { shows: Show[] }) {
 
       <div className="max-h-[45vh] overflow-y-auto px-5 py-4">
         {shows.length === 0 ? (
-          <p className="text-sm text-text-muted">{noShowsMessage}</p>
+          <p className="whitespace-pre-line text-sm text-text-muted">{noShowsMessage}</p>
         ) : (
           <ul className="flex flex-col divide-y divide-border/40">
             {shows.map((show) => (
