@@ -7,9 +7,10 @@ import { revalidatePath } from "next/cache";
 import { COOKIE_NAME, SESSION_TTL_SECONDS, createSessionToken } from "@/lib/session";
 import { isAdminSession } from "@/lib/auth";
 import { createShow, deleteShow, updateShow, type ShowInput } from "@/lib/shows";
-import { deleteSubscriber } from "@/lib/subscribers";
+import { deleteSubscriber, isValidEmail } from "@/lib/subscribers";
 import { deleteGalleryPhoto } from "@/lib/galleryPhotos";
 import { SITE_TEXT_FIELDS, updateSiteText, type SiteTextKey } from "@/lib/settings";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export async function loginAction(formData: FormData) {
   const username = String(formData.get("username") ?? "");
@@ -136,4 +137,30 @@ export async function updateSiteTextAction(formData: FormData) {
   revalidatePath("/join");
   revalidatePath("/admin");
   redirect("/admin?saved=1");
+}
+
+// Manually (re)send the welcome email - with the current welcome track link
+// - to one or more addresses. Useful for testing, or resending to someone
+// who lost the original email. Doesn't touch the mailing list itself.
+export async function sendWelcomeEmailManuallyAction(formData: FormData) {
+  if (!(await isAdminSession())) redirect("/admin/login");
+
+  const raw = String(formData.get("emails") ?? "");
+  const emails = Array.from(
+    new Set(
+      raw
+        .split(/[,\s]+/)
+        .map((e) => e.trim().toLowerCase())
+        .filter(Boolean)
+    )
+  );
+
+  const validEmails = emails.filter(isValidEmail);
+  if (validEmails.length === 0) {
+    redirect("/admin?welcome_error=invalid_email");
+  }
+
+  await Promise.all(validEmails.map((email) => sendWelcomeEmail(email)));
+
+  redirect(`/admin?welcome_sent=${validEmails.length}`);
 }

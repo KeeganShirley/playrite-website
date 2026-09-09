@@ -6,6 +6,7 @@ import {
   deleteShowAction,
   deleteSubscriberAction,
   logoutAction,
+  sendWelcomeEmailManuallyAction,
   updateShowAction,
   updateSiteTextAction,
 } from "@/app/admin/actions";
@@ -33,6 +34,10 @@ export default async function AdminPage({
   const params = await searchParams;
   const error = params?.error;
   const saved = params?.saved === "1";
+  const welcomeSentCount = params?.welcome_sent
+    ? Number(params.welcome_sent)
+    : 0;
+  const welcomeError = params?.welcome_error === "invalid_email";
   const shows = await getAllShows();
   const subscribers = await getAllSubscribers();
   const totalVisitors = await getTotalUniqueVisitors();
@@ -345,6 +350,41 @@ export default async function AdminPage({
 
         <div className="mt-4">
           <WelcomeTrackUploader />
+        </div>
+
+        <div className="mt-6 border-t border-border pt-6">
+          <label className={labelClass}>
+            Manually send the welcome email
+          </label>
+          <p className="mt-1 text-xs text-text-muted">
+            Sends the current track link to any address(es) below &mdash;
+            handy for testing or resending. Doesn&apos;t add them to the
+            mailing list.
+          </p>
+          <form action={sendWelcomeEmailManuallyAction} className="mt-2 flex flex-col gap-2 sm:flex-row">
+            <input
+              type="text"
+              name="emails"
+              placeholder="email@example.com, another@example.com"
+              className={`${inputClass} mt-0 sm:flex-1`}
+            />
+            <button
+              type="submit"
+              className="rounded-sm border border-border px-4 py-2 text-xs font-medium uppercase tracking-[0.15em] text-text hover:bg-bg-elevated"
+            >
+              Send
+            </button>
+          </form>
+          {welcomeSentCount > 0 ? (
+            <p className="mt-2 text-sm text-text-muted">
+              Sent to {welcomeSentCount} address{welcomeSentCount === 1 ? "" : "es"}.
+            </p>
+          ) : null}
+          {welcomeError ? (
+            <p className="mt-2 text-sm text-red-300/80">
+              Enter at least one valid email address.
+            </p>
+          ) : null}
         </div>
       </section>
 
