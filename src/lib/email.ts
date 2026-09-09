@@ -23,7 +23,7 @@ export async function sendWelcomeEmail(to: string) {
   ]);
 
   const trackSection = track
-    ? `<p style="margin:24px 0 0;"><a href="${track.url}" style="display:inline-block;background:#f0ece4;color:#0f1c25;padding:12px 24px;text-decoration:none;border-radius:2px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;font-size:13px;">Download the track</a></p>`
+    ? `<p style="margin:24px 0 0;"><a href="${track.downloadUrl}" style="display:inline-block;background:#f0ece4;color:#0f1c25;padding:12px 24px;text-decoration:none;border-radius:2px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;font-size:13px;">Download the track</a></p>`
     : "";
 
   const html = `

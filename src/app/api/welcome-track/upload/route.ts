@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
         const filename = tokenPayload || blob.pathname.split("/").pop() || "track.mp3";
-        await setWelcomeTrack(blob.url, filename);
+        await setWelcomeTrack(blob.url, blob.downloadUrl, filename);
         revalidatePath("/admin");
       },
     });
