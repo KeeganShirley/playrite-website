@@ -5,9 +5,15 @@ export function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export async function addSubscriber(email: string) {
+/**
+ * Adds a subscriber. Returns true if they were newly added, false if they
+ * were already on the list (so callers can decide whether to send a
+ * welcome email - not on every resubmission of an existing address).
+ */
+export async function addSubscriber(email: string): Promise<boolean> {
   try {
     await prisma.subscriber.create({ data: { email } });
+    return true;
   } catch (err) {
     // Unique constraint violation just means they're already on the
     // list - treat that as a normal, non-error outcome.
@@ -15,6 +21,7 @@ export async function addSubscriber(email: string) {
       err instanceof Prisma.PrismaClientKnownRequestError &&
       err.code === "P2002";
     if (!isDuplicate) throw err;
+    return false;
   }
 }
 

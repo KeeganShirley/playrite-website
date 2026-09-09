@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { addSubscriber, isValidEmail } from "@/lib/subscribers";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export async function joinMailingListAction(formData: FormData) {
   const email = String(formData.get("email") ?? "")
@@ -12,7 +13,10 @@ export async function joinMailingListAction(formData: FormData) {
     redirect("/join?error=invalid");
   }
 
-  await addSubscriber(email);
+  const isNewSubscriber = await addSubscriber(email);
+  if (isNewSubscriber) {
+    await sendWelcomeEmail(email);
+  }
 
   redirect("/join?success=1");
 }

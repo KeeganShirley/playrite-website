@@ -13,8 +13,10 @@ import { getAllShows } from "@/lib/shows";
 import { getAllSubscribers } from "@/lib/subscribers";
 import { getTotalUniqueVisitors } from "@/lib/visitors";
 import { getUploadedGalleryPhotos } from "@/lib/galleryPhotos";
+import { getWelcomeTrack } from "@/lib/welcomeTrack";
 import { SITE_TEXT_FIELDS, getAllSiteText, type SiteTextKey } from "@/lib/settings";
 import GalleryUploader from "@/components/admin/GalleryUploader";
+import WelcomeTrackUploader from "@/components/admin/WelcomeTrackUploader";
 
 function toDateInputValue(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -35,6 +37,7 @@ export default async function AdminPage({
   const subscribers = await getAllSubscribers();
   const totalVisitors = await getTotalUniqueVisitors();
   const galleryPhotos = await getUploadedGalleryPhotos();
+  const welcomeTrack = await getWelcomeTrack();
   const siteText = await getAllSiteText();
 
   return (
@@ -314,6 +317,35 @@ export default async function AdminPage({
             />
           </>
         )}
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl tracking-[0.06em] text-text">
+          WELCOME TRACK
+        </h2>
+        <p className="mt-2 text-sm text-text-muted">
+          New mailing list signups automatically get an email with a link to
+          whatever track is loaded here. Drop a new MP3 in anytime to swap
+          it out.
+        </p>
+
+        {welcomeTrack ? (
+          <div className="mt-4 rounded-sm border border-border bg-bg-elevated p-4">
+            <p className="text-sm text-text">
+              Currently sending: <span className="text-text-muted">{welcomeTrack.filename}</span>
+            </p>
+            <audio controls src={welcomeTrack.url} className="mt-3 w-full" />
+          </div>
+        ) : (
+          <p className="mt-4 text-text-muted">
+            No track loaded yet &mdash; new subscribers won&apos;t get a
+            track link until you add one.
+          </p>
+        )}
+
+        <div className="mt-4">
+          <WelcomeTrackUploader />
+        </div>
       </section>
 
       <section className="mt-12">

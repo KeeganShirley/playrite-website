@@ -27,6 +27,15 @@ export const SITE_TEXT_FIELDS = {
     label: "\"No shows\" message",
     default: "No shows on the books right now — check back soon.",
   },
+  welcome_email_subject: {
+    label: "Welcome email subject line",
+    default: "Welcome to the group chat 🎸",
+  },
+  welcome_email_body: {
+    label: "Welcome email message",
+    default:
+      "You're on the list. Here's an unreleased track as a thank-you for signing up — nobody else has heard this yet.",
+  },
 } as const;
 
 export type SiteTextKey = keyof typeof SITE_TEXT_FIELDS;
