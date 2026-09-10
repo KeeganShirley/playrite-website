@@ -16,14 +16,17 @@ export async function sendWelcomeEmail(to: string) {
     return;
   }
 
+  const domain = process.env.RESEND_EMAIL_DOMAIN;
   const [subject, body, track] = await Promise.all([
     getSiteText("welcome_email_subject"),
     getSiteText("welcome_email_body"),
     getWelcomeTrack(),
   ]);
 
+  // Send people to the on-site player (tap play, it just works on phones)
+  // rather than straight at the file, which downloads awkwardly on mobile.
   const trackSection = track
-    ? `<p style="margin:24px 0 0;"><a href="${track.downloadUrl}" style="display:inline-block;background:#f0ece4;color:#0f1c25;padding:12px 24px;text-decoration:none;border-radius:2px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;font-size:13px;">Download the track</a></p>`
+    ? `<p style="margin:24px 0 0;"><a href="https://${domain}/listen" style="display:inline-block;background:#f0ece4;color:#0f1c25;padding:12px 24px;text-decoration:none;border-radius:2px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;font-size:13px;">Listen now</a></p>`
     : "";
 
   const html = `
