@@ -24,9 +24,18 @@ export default function ListenPlayer({
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    // The <audio> can load and fire `loadedmetadata` before React hydrates
+    // and attaches its listeners, so sync whatever's already there on mount.
+    if (Number.isFinite(audio.duration)) setDuration(audio.duration);
+    setCurrent(audio.currentTime);
+    setIsPlaying(!audio.paused);
+
     // Try to start on arrival. Phones usually block autoplay with sound,
     // and that's fine - the play button is sitting right there, big.
-    audioRef.current?.play().catch(() => {});
+    audio.play().catch(() => {});
   }, []);
 
   function togglePlay() {
@@ -57,6 +66,7 @@ export default function ListenPlayer({
         onEnded={() => setIsPlaying(false)}
         onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onDurationChange={(e) => setDuration(e.currentTarget.duration)}
       />
 
       <div className="flex items-center gap-4 rounded-sm border border-border bg-bg-elevated p-5 text-left">
