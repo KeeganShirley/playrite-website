@@ -16,7 +16,7 @@ export const SITE_TEXT_FIELDS = {
   },
   join_heading: {
     label: "Join page heading",
-    default: "JOIN THE GROUP CHAT…",
+    default: "JOIN THE CHAT…",
   },
   join_blurb: {
     label: "Join page subtext",
