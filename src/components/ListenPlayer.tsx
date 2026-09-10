@@ -74,7 +74,7 @@ export default function ListenPlayer({
           type="button"
           onClick={togglePlay}
           aria-label={isPlaying ? "Pause" : "Play"}
-          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-text text-bg transition-opacity hover:opacity-90"
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-text text-bg transition-opacity hover:opacity-90 sm:h-16 sm:w-16"
         >
           {isPlaying ? (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -89,7 +89,7 @@ export default function ListenPlayer({
         </button>
 
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-xl tracking-[0.04em] text-text">
+          <p className="line-clamp-2 font-display text-xl leading-tight tracking-[0.04em] text-text">
             {title}
           </p>
           <button
